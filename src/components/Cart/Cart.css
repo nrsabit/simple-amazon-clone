@@ -1,0 +1,38 @@
+.cart-container{
+    position: sticky;
+    top: 0;
+}
+.cart-heading {
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 30px;
+    color: #1C2B35;
+    text-align: center;
+}
+
+.cart-details {
+    margin: 0px 25px;
+}
+
+.cart-details p {
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 20px;
+    letter-spacing: 0.005em;
+    color: #2A414F;
+}
+
+.cart-details h6 {
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 21px;
+    line-height: 25px;
+    letter-spacing: 0.0015em;
+    color: #0E161A;
+    margin: 20px 0px;
+}
