@@ -11,3 +11,13 @@
 .cart-section{
     background: rgba(255, 153, 0, 0.3);
 }
+.btn-checkout{
+    color: white;
+    background: #FF9900;
+    border-radius: 4px;
+    width: 95%;
+    margin: 10px auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

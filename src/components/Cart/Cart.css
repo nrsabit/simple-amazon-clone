@@ -1,6 +1,6 @@
 .cart-container{
     position: sticky;
-    top: 0;
+    top: 50px;
 }
 .cart-heading {
     font-family: 'Lato';
@@ -35,4 +35,14 @@
     letter-spacing: 0.0015em;
     color: #0E161A;
     margin: 20px 0px;
+}
+.btn-clear-cart{
+    color: white;
+    background: #FF3030;
+    border-radius: 4px;
+    width: 95%;
+    margin: 10px auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
