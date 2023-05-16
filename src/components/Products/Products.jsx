@@ -5,11 +5,18 @@ import Product from '../Product/Product';
 import './Products.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
+import { Link, useLoaderData } from 'react-router-dom';
 
 const Products = () => {
     const [cart, setCart] = useState([]);
     const [products, setProducts] = useState([]);
+    const {totalProducts} = useLoaderData()
+    const productsPerPage = 9
+    const totalPages = Math.ceil(totalProducts / productsPerPage)
+    const paginationButtons = [...Array(totalPages).keys()]
+    console.log(paginationButtons)
+
+
     useEffect(() => {
         fetch('http://localhost:5000/products')
             .then(res => res.json())
@@ -48,6 +55,7 @@ const Products = () => {
         deleteShoppingCart();
     }
     return (
+        <>
         <div className='products-container'>
             <div className='products-section'>
                 {
@@ -63,6 +71,10 @@ const Products = () => {
                 </Cart>
             </div>
         </div>
+        <div className='pagination-buttons'>
+                    {paginationButtons.map(button => <button key={button}>{button}</button>)}
+                </div>
+        </>
     );
 };
 
