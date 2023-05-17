@@ -1,39 +1,41 @@
 import React, { useEffect, useState } from 'react';
-import { addToDb, deleteShoppingCart, getShoppingCart } from '../../utilities/fakedb';
+import { addToDb, deleteShoppingCart} from '../../utilities/fakedb';
 import Cart from '../Cart/Cart';
 import Product from '../Product/Product';
 import './Products.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { Link, useLoaderData } from 'react-router-dom';
+import cartProductsLoader from '../../Loaders/cartProductsLoader';
 
 const Products = () => {
     const [cart, setCart] = useState([]);
     const [products, setProducts] = useState([]);
     const {totalProducts} = useLoaderData()
-    const productsPerPage = 9
+    const [currentPage, setCurrentPage] = useState(0);
+    const [productsPerPage, setproductsPerPage] = useState(9);
     const totalPages = Math.ceil(totalProducts / productsPerPage)
-    const paginationButtons = [...Array(totalPages).keys()]
-    console.log(paginationButtons)
+    const pageNumbers = [...Array(totalPages).keys()]
+    const productsPerPageOptions = [9, 5, 10, 20]
+
+    const handleProductsPerPage = (event) => {
+        const selectedProductsPerPage = parseInt(event.target.value);
+        setproductsPerPage(selectedProductsPerPage);
+        setCurrentPage(0);
+      };
 
 
     useEffect(() => {
-        fetch('http://localhost:5000/products')
+        fetch(`http://localhost:5000/products?page=${currentPage}&limit=${productsPerPage}`)
             .then(res => res.json())
             .then(data => setProducts(data));
-    }, []);
+    }, [currentPage, productsPerPage]);
+    
+
     useEffect(() => {
-        const storedCart = getShoppingCart();
-        const savedCart = [];
-        for(const id in storedCart){
-            const addedItem = products.find(product => product._id === id);
-            if(addedItem){
-                addedItem.quantity = storedCart[id];
-                savedCart.push(addedItem);
-            }
-        }
-        setCart(savedCart);
-    }, [products]);
+        cartProductsLoader()
+        .then(res => setCart(res))
+    }, [])
 
     const handleCartItems = product =>{
         let newCart = [];
@@ -71,8 +73,22 @@ const Products = () => {
                 </Cart>
             </div>
         </div>
+        <div className='pagination-dropdown'>
+            <h4>Show Products: </h4>
+            <select value={productsPerPage} onChange={handleProductsPerPage}>
+            {productsPerPageOptions.map((option) => (
+            <option key={option} value={option}>
+                {option} per page
+            </option>
+            ))}
+        </select>
+        </div>
         <div className='pagination-buttons'>
-                    {paginationButtons.map(button => <button key={button}>{button}</button>)}
+                    {pageNumbers.map(number => <button 
+                    key={number}
+                    className={currentPage === number ? 'active-page' : ''}
+                    onClick={() => setCurrentPage(number)}
+                    >{number}</button>)}
                 </div>
         </>
     );
